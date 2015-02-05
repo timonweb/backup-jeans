@@ -207,11 +207,11 @@ def restore_files(dest, target_id=0, subdir=FILES_SUBDIR, file_to_restore=None, 
 
 
 @task
-def restore_db(dest, target_id=0):
+def restore_db(dest, target_id=0, time=None):
     """
     Restore database from a TARGET
     """
-    restore_files(dest, target_id=target_id, subdir=DB_SUBDIR)
+    restore_files(dest, target_id=target_id, subdir=DB_SUBDIR, time)
 
 
 @task
