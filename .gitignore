@@ -1,0 +1,7 @@
+# Basics
+*.py[cod]
+*.pyc
+__pycache__
+
+# Pycharm
+.idea
