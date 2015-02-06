@@ -322,14 +322,14 @@ def cron_setup(skip_confirmation=False, verify_cronjob=False):
         cron_tasks['mailto'] = 'MAILTO={}'.format(SEND_REPORTS_ADDRESS)
 
     if FILES_CRON_SCHEDULE and len(FILES_CRON_SCHEDULE) > 0:
-        cron_tasks['backup_files'] = '{} cd {} && {} backup_files --show_errors_only > /dev/null'.format(
+        cron_tasks['backup_files'] = '{} cd {} && {} backup_files --show-errors-only > /dev/null'.format(
             FILES_CRON_SCHEDULE,
             fabfile_dir,
             invoke_path
         )
 
     if DB_CRON_SCHEDULE and len(DB_CRON_SCHEDULE) > 0:
-        cron_tasks['backup_db'] = '{} cd {} && {} backup_db --show_errors_only > /dev/null'.format(
+        cron_tasks['backup_db'] = '{} cd {} && {} backup_db --show-errors-only > /dev/null'.format(
             DB_CRON_SCHEDULE,
             fabfile_dir,
             invoke_path
