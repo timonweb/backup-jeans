@@ -403,7 +403,6 @@ def cron_remove():
 """
 
 
-@task
 def invoke_bin_path():
     """
     Returns bin path of fabric executable or fails.
