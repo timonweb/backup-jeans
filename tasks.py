@@ -135,6 +135,7 @@ SEND_REPORTS_ADDRESS = 'admin@localhost'  # CHANGE ME!
 DB_SUBDIR = 'db'
 FILES_SUBDIR = 'files'
 
+
 """
 2. TASKS
 ...
@@ -305,8 +306,8 @@ def duplicity_command(args='', duopts='', show_errors_only=False):
 
 
 @task(help={
-    'skip_confirmation': 'Doesn\'t show confirmation step before creating a cron job.',
-    'verify_cronjob': 'Set to True if you want to verify backup command before creating a cron job.',
+    'skip-confirmation': 'Doesn\'t show confirmation step before creating a cron job.',
+    'verify-cronjob': 'Set to True if you want to verify backup command before creating a cron job.',
 })
 def cron_setup(skip_confirmation=False, verify_cronjob=False):
     """
