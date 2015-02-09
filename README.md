@@ -30,27 +30,25 @@ To make sure you have latest versions of dependencies it's better to install the
 
 You can put tasks.py anywhere you wish, but I reccommend to create a ***backup*** directory in your project and put it here, so it will leave there. You can git clone to this directory or just ``wget https://raw.githubusercontent.com/timonweb/backup-jeans/master/tasks.py``` and you're almost ready to go.
 
-## 3. Configuration ##
+# Configuration #
 
-### 3.1 Enter necessary data ###
-Edit downloaded ***tasks.py*** and enter your database credentials, backup paths, targets, cron schedule and other settings in section 1. configuration.
+Edit downloaded ***tasks.py***, find section 1 configuration and enter your data in lines marked as #CHANGEME. 
 
-### 3.2 Setup cronjob ###
-***Backup jeans*** will automatically setup a cronjob for you, but before it will offer you to test if your backup configuration is correct. 
+## 3. Usage ##
 
-To do so, staying in a directory where your invoke.py lives run `invoke cron_setup` and follow on screen steps.
+You can see all commands available by running `invoke --list` command. To get individual per command help, use `invoke --help <command_name>`, for example `invoke --help backup_files` to get a help for backup_files function.
 
-## 4. Enjoy ##
-That's all, now you have your credentials in, cronjob set and you may forget about it (well, not entirelly, remember about the need of regular backup test, but this is another story and not the job for this script).
+Main functions of the script are: `invoke backup_files` and `invoke backup_db`, these do run backups of your files and database respectivelly. 
 
-# Doing manual backups #
+You can test if your backup configuration is correct by running `invoke backup_files_verify` or `invoke backup_db_verify`. ***Backup jeans*** will do a --dry-run and will output results on the screen.
 
-If you want to do backups manually, ***Backup jeans*** will help you too. Try to run `invoke --list` to see a list of commands available.
+Now you can setup a cronjob to execute these commands on a schedule.
 
-Running `invoke backup_files` will backup files to your destination, you can pass additional duplicity options to that command via duopts parameter as in this example: `invoke backup_files --duopts="--dry-run"`. For a list of duplicity options please refer official [duplicity documentation](http://duplicity.nongnu.org/duplicity.1.html).
+## 4. Automatic cronjob setup ##
+***Backup jeans*** can automatically setup a cronjob for you. To do so run `invoke cron_setup` and follow on screen instructions.
 
-You can also run `invoke backup_db` to backup your database. Currently, ***backup jeans*** supports postgres and mysql backups.
+## 5. Restoring backups ##
 
-# Restoring backups #
-## Restoring files ##
-To restore your project files run `invoke restore_files --dest=/path/where/to/restore` and ***backup jeans*** will restore your latest backup into /path/where/to/restore directory.
+To restore your project files run `invoke restore_files --dest=/path/where/to/restore` and ***backup jeans*** will restore your latest backup into /path/where/to/restore directory. If you want to restore a file from a given timeframe, you can use a time option. For example, let's restore files that we've backed up 3 days ago: `invoke restore_files --dest=/path/where/to/restore --time=3D`. For more available options, please refer to command help `invoke --help restore_files`
+
+# NOTE :# While this script totally works for me, it may contain bugs, so be careful and check if your cronjobs are executed properly. Also as a good practice, don't forget to test your backups on a regular basis.
