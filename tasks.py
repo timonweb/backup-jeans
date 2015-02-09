@@ -32,7 +32,11 @@ import os
 import uuid
 import sys
 
-from invoke import run, task, ctask, Collection
+from invoke import run, task
+from invoke.cli import print_help, parse
+from invoke.exceptions import Exit
+from invoke.loader import FilesystemLoader
+from invoke.parser import Context as ParserContext, Argument
 
 
 """
@@ -392,6 +396,23 @@ def cron_remove():
     sys.stdout.write(
         'Done, we removed tasks for your backup project {}, use "crontab -l" command to check. \n'.format(BACKUP_NAME))
 
+
+@task
+def print_all_help():
+    """
+    Print help for all commands.
+    """
+    loader = FilesystemLoader()
+    collection = loader.load()
+
+    task_names = collection.task_names.keys()
+    task_names.sort()
+    for task_name in task_names:
+        sys.stdout.write('\n{}:\n'.format(task_name))
+        try:
+            parse([invoke_bin_path(), '--help', task_name], collection)
+        except Exit:
+            pass
 
 """
 3. UTILS
