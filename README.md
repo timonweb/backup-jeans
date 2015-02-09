@@ -1,4 +1,4 @@
-# backup-jeans (docs in the works)
+# backup-jeans
 
 Backup Jeans is a backup script that has one goal: to make process of backing up site's database and files simple and hassleless no matter what stack / language / cms your web app is running on.
 
