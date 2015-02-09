@@ -34,7 +34,7 @@ You can put tasks.py anywhere you wish, but I reccommend to create a ***backup**
 
 Edit downloaded ***tasks.py***, find section 1 configuration and enter your data in lines marked as #CHANGEME. 
 
-## 3. Usage ##
+# Usage #
 
 You can see all commands available by running `invoke --list` command. To get individual per command help, use `invoke --help <command_name>`, for example `invoke --help backup_files` to get a help for backup_files function.
 
@@ -44,10 +44,10 @@ You can test if your backup configuration is correct by running `invoke backup_f
 
 Now you can setup a cronjob to execute these commands on a schedule.
 
-## 4. Automatic cronjob setup ##
+## 1. Automatic cronjob setup ##
 ***Backup jeans*** can automatically setup a cronjob for you. To do so run `invoke cron_setup` and follow on screen instructions.
 
-## 5. Restoring backups ##
+## 2. Restoring backups ##
 
 To restore your project files run `invoke restore_files --dest=/path/where/to/restore` and ***backup jeans*** will restore your latest backup into /path/where/to/restore directory. If you want to restore a file from a given timeframe, you can use a time option. For example, let's restore files that we've backed up 3 days ago: `invoke restore_files --dest=/path/where/to/restore --time=3D`. For more available options, please refer to command help `invoke --help restore_files`
 
