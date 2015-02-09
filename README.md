@@ -51,5 +51,5 @@ Now you can setup a cronjob to execute these commands on a schedule.
 
 To restore your project files run `invoke restore_files --dest=/path/where/to/restore` and ***backup jeans*** will restore your latest backup into /path/where/to/restore directory. If you want to restore a file from a given timeframe, you can use a time option. For example, let's restore files that we've backed up 3 days ago: `invoke restore_files --dest=/path/where/to/restore --time=3D`. For more available options, please refer to command help `invoke --help restore_files`
 
-# NOTE: # 
+# NOTE: #
 While this script totally works for me, it may contain bugs, so be careful and check if your cronjobs are executed properly. Also as a good practice, don't forget to test your backups on a regular basis.
