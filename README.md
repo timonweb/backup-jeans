@@ -18,11 +18,11 @@ If you're on a relatively fresh Debian installation, you can do:
 
 To make sure you have latest versions of dependencies it's better to install them trough Python's package manager called PIP:
 
-#### 1.2.1 Installing PIP (if you don't have it installed) ####
+##### 1.2.1 Installing PIP (if you don't have it installed) #####
 
 `sudo apt-get install python-pip`
 
-#### 1.2.2 Installing dependencies via PIP ####
+##### 1.2.2 Installing dependencies via PIP #####
 
 `pip install invoke duplicity boto`, depending on your system, you may need to run this command as `sudo pip install invoke duplicity boto`.
 
