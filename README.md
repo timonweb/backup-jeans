@@ -1,5 +1,7 @@
 # backup-jeans
 
+![alt tag](https://farm8.staticflickr.com/7380/16500239682_081567130c_z.jpg)
+
 Backup Jeans is a backup script that has one goal: to make process of backing up site's database and files simple and hassleless no matter what stack / language / cms your web app is running on.
 
 The script itself is a [PyInvoke](http://www.pyinvoke.org) script that uses [Duplicity](http://duplicity.nongnu.org/) to do scheduled backups.
