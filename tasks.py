@@ -256,7 +256,7 @@ def restore_files(dest, file_to_restore=None, time=None, duopts='', target_id=0,
               ' For example --duopts="--dry-run" Refer duplicity man page for more options.',
     'target_id': 'Index of a target you want to restore from, if you have multiple, by default is set to 0',
 })
-def restore_db(dest, time=None, duopts='', target_id=0):
+def restore_db_file(dest, time=None, duopts='', target_id=0):
     """
     Restore database dump file from a TARGET by executing 'duplicity restore' command.
     """
