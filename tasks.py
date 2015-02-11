@@ -34,7 +34,7 @@ import sys
 
 from invoke import run, task
 from invoke.cli import parse
-from invoke.exceptions import Exit
+from invoke.exceptions import Exit, Failure
 from invoke.loader import FilesystemLoader
 
 
@@ -165,7 +165,8 @@ def backup_files(duopts='', show_errors_only=False):
         subdir=FILES_SUBDIR,
         duopts=duopts,
         full_if_older_than=FILES_FULL_IF_OLDER_THAN,
-        remove_older_than=FILES_REMOVE_OLDER_THAN
+        remove_older_than=FILES_REMOVE_OLDER_THAN,
+        show_errors_only=show_errors_only
     )
 
 
@@ -201,23 +202,27 @@ def backup_db(duopts='', show_errors_only=False):
     )
 
 
-@task
-def backup_files_verify():
+@task(help={
+    'show-errors-only': 'Hide command output except errors.'
+})
+def backup_files_verify(show_errors_only=False):
     """
     Does a dry run of your files backup by calculating what would be done, but do not perform any backend actions.
     Useful to check if you've entered all credentials correctly.
     """
-    backup_files(duopts='--dry-run')
+    backup_files(duopts='--dry-run', show_errors_only=show_errors_only)
 
 
-@task
-def backup_db_verify():
+@task(help={
+    'show-errors-only': 'Hide command output except errors.'
+})
+def backup_db_verify(show_errors_only=False):
     """
     Does a test database dump and dry run of your database files backup by calculating what would be done,
     but do not perform any backend actions.
     Useful to check if you've entered all credentials correctly.
     """
-    backup_db(duopts='--dry-run')
+    backup_db(duopts='--dry-run', show_errors_only=show_errors_only)
 
 
 @task(help={
@@ -311,8 +316,9 @@ def duplicity_command(args='', duopts='', show_errors_only=False):
 @task(help={
     'skip-confirmation': 'Doesn\'t show confirmation step before creating a cron job.',
     'verify-cronjob': 'Set to True if you want to verify backup command before creating a cron job.',
+    'show-errors-only': 'Hide command output except errors.'
 })
-def cron_setup(skip_confirmation=False, verify_cronjob=False):
+def cron_setup(skip_confirmation=False, verify_cronjob=False, show_errors_only=False):
     """
     Set up regular backup cronjob in your system for the current user.
     """
@@ -352,9 +358,9 @@ def cron_setup(skip_confirmation=False, verify_cronjob=False):
     if verify_cronjob:
         try:
             if cron_tasks.get('backup_files'):
-                backup_files_verify()
+                backup_files_verify(show_errors_only=show_errors_only)
             if cron_tasks.get('backup_files'):
-                backup_db_verify()
+                backup_db_verify(show_errors_only=show_errors_only)
         except (SystemExit, SystemError) as err:
             sys.stderr.write("\nError has occurred during backup check! Aborting!\n")
             return False
@@ -475,15 +481,20 @@ def crontab_get_current():
     """
     Get current crontab
     """
-    output = run('crontab -l', hide='out')
-    return output.stdout.strip('\n') if output.stdout else ''
+    try:
+        output = run('crontab -l', hide=True)
+        return output.stdout.strip('\n') if output.stdout else ''
+    except Failure:
+        # 'crontab -l' command issues Failure exception if user has no
+        # cron jobs defined, we return empty string in such case
+        return ''
 
 
 def crontab_set(content):
     """
     Sets crontab content
     """
-    run("echo '%s' | crontab -" % content)
+    run("echo '{}' | crontab -".format(content))
 
 
 def crontab_add(content, marker=None):
@@ -499,9 +510,10 @@ def crontab_remove(marker):
     """
     Removes a line added and marked using crontab_add.
     """
-    lines = [line for line in crontab_get_current().splitlines()
-             if line and not line.endswith(crontab_marker(marker))]
-    crontab_set("\n".join(lines))
+    if len(crontab_get_current()) > 0:
+        lines = [line for line in crontab_get_current().splitlines()
+                 if line and not line.endswith(crontab_marker(marker))]
+        crontab_set("\n".join(lines))
 
 
 def crontab_update(content, marker):
