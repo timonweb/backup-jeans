@@ -268,7 +268,7 @@ def restore_db_file(dest, time=None, duopts='', target_id=0):
     if time:
         duopts += ' --time {}'.format(time)
 
-    restore_files(dest, target_id=target_id, subdir=DB_SUBDIR, duopts=duopts)
+    restore_files(dest, target_id=target_id, _subdir=DB_SUBDIR, duopts=duopts)
 
 
 @task(help={
